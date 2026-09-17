@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURACIN | Pack Zéro Taches</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b4d8c'/><text x='50%' y='62%' font-family='Arial, sans-serif' font-weight='bold' font-size='60' fill='white' text-anchor='middle'>A</text><path d='M25 78 L50 88 L75 78 L50 94 Z' fill='%23e53e3e'/></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        .strikethrough { text-decoration: line-through; }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .floating-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Announcement Bar -->
+    <div class="bg-red-600 py-2 px-4 text-center text-white text-sm font-bold">
+       عرض محدود: التوصيل مجاني 100% لجميع مدن المغرب + الدفع عند الاستلام!
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-4xl mx-auto px-4 py-6">
+        <!-- Hero Section -->
+        <section class="mb-12 text-center">
+            <div class="flex justify-center mb-8 relative">
+                <div class="relative">
+                    <img src="/Auracin_logo.png" class="w-32 h-22">
+                </div>
+            </div>
+
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 leading-tight">
+                Pack Zéro Taches </br><p class="text-lg text-gray-800 mb-4 leading-tight">الحل المتكامل لبشرة صافية وموحدة</p>
+            </h1>
+
+            <div class="flex justify-center mb-8 relative">
+                <div class="relative">
+                    <img src="/Skincare_set.jpeg" alt="Pack Zéro Taches" class="rounded-xl shadow-lg w-70 h-80 object-cover">
+                    <div class="absolute top-0 right-0 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold floating-badge">
+                        خصم 40%
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                3 منتجات طبيعية تضمن لك التفتيح، الترطيب العميق، والحماية الكاملة.
+            </p>
+            
+            <div class="mb-6">
+                <div class="text-2xl font-bold text-gray-800 mb-2">
+                    <span class="text-3xl text-red-600">349 DH</span>
+                </div>
+                <p class="text-green-600 font-semibold">✓ التوصيل مجاني</p>
+            </div>
+            
+            <!-- Order Form -->
+            <div class="bg-white p-6 rounded-xl shadow-lg max-w-md mx-auto mb-6">
+                <!-- iframe مخفي يستقبل النتيجة بدون تهنيج الصفحة -->
+                <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+                <form id="orderForm" action="https://script.google.com/macros/s/AKfycbyxvob9ReOvjBcL4FVSE53p5J_fhWRcRFGSKYehflVH3rMqimVcK2XzU7Ud-DmLRUzL/exec" method="POST" target="hidden_iframe" class="space-y-4">
+                    <div>
+                        <input type="text" id="name" name="fullName" placeholder="الاسم الكامل" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                    </div>
+                    <div>
+                        <input type="tel" id="phone" name="phone" placeholder="رقم الهاتف" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                    </div>
+                    <button type="submit" id="submitBtn" class="w-full bg-red-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-red-700 transition duration-300 pulse">
+                        أطلبي الآن
+                    </button>
+                </form>
+                <p class="text-sm text-gray-600 mt-4 text-right">
+                    📞 بعد إدخال معلوماتك، سيتصل بك فريقنا لتأكيد طلبك.
+                </p>
+            </div>
+        </section>
+
+        <!-- Authority & Social Proof -->
+        <section class="mb-12 grid md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">
+                    د. هدى الراشدي
+                    <br><span class="text-sm text-gray-600">أخصائية أمراض الجلد</span>
+                </h3>
+                <div class="grid grid-cols-1 gap-4">
+                    <div>
+                        <img src="/Woman_doc.jpeg" alt="Doctor" class="w-full h-64 object-cover rounded">
+                        <p class="text-center mt-2 text-sm">الصيغة الطبيعية لدى Auracin تحتوي على مكونات فعالة تساعد في تفتيح البشرة وترطيبها بشكل آمن</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">✓ قبل وبعد</h3>
+                <div class="grid grid-cols-1 gap-4">
+                    <div>
+                        <img src="/skin_comparison.jpeg" alt="Comparison" class="w-full h-64 object-cover rounded">
+                        <p class="text-center mt-2 text-sm">نتيجة واضحة إبتداء من الأسبوع 4</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="flex justify-center mb-8 relative">
+            <div class="relative">
+                <img src="/Auracin_logo.png" class="w-32 h-22">
+            </div>
+        </div>
+
+        <!-- 3-Step Product Breakdown -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center">الحل الثلاثي المتكامل</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div class="flex items-center justify-center mx-auto mb-4">
+                        <img src="/serum_ad.jpeg" alt="Sérum Éclat" class="w-18 h-18">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Sérum Éclat</h3>
+                    <p class="text-gray-600 mb-3">التفتيح والتصفية</p>
+                    <p class="text-sm text-gray-500">يُستعمل صباحاً ومساءً لتفتيح البشرة وتنظيفها من البقع</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div class="flex items-center justify-center mx-auto mb-4">
+                        <img src="/cream_ad.jpeg" alt="Crème Hydratante" class="w-18 h-18">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Crème Hydratante</h3>
+                    <p class="text-gray-600 mb-3">الترطيب والنعومة</p>
+                    <p class="text-sm text-gray-500">يُستعمل ليلاً لترطيب العمق وإعادة نعومة البشرة</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div class="flex items-center justify-center mx-auto mb-4">
+                        <img src="/sun_ad.jpeg" alt="Écran Solaire SPF50+" class="w-18 h-18">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Écran Solaire</h3>
+                    <p class="text-gray-600 mb-3">الحماية اليومية</p>
+                    <p class="text-sm text-gray-500">يُستعمل قبل الخروج للحماية من أشعة الشمس والبقع</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-lg">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">مقارنة مع المنتجات الأخرى</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-right">
+                    <thead>
+                        <tr class="bg-blue-900 text-white">
+                            <th class="py-3 px-4">الميزة</th>
+                            <th class="py-3 px-4">Pack Zéro Taches</th>
+                            <th class="py-3 px-4">المنتجات العادية</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="py-3 px-4 font-medium">السعر</td>
+                            <td class="py-3 px-4 text-green-600 font-bold">349 DH</td>
+                            <td class="py-3 px-4 text-red-600">890+ DH</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="py-3 px-4 font-medium">المكونات</td>
+                            <td class="py-3 px-4 text-green-600">طبيعية 100%</td>
+                            <td class="py-3 px-4 text-red-600">كيميائية</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="py-3 px-4 font-medium">النتائج</td>
+                            <td class="py-3 px-4 text-green-600">إبتداء من الأسبوع 3</td>
+                            <td class="py-3 px-4 text-red-600">60+ يوم</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="py-3 px-4 font-medium">الضمان</td>
+                            <td class="py-3 px-4 text-green-600">30 يوم</td>
+                            <td class="py-3 px-4 text-red-600">غير متوفر</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-lg">
+            <h2 class="bg-yellow-500 text-2xl font-bold text-gray-800 mb-6 text-center">الأسئلة الشائعة</h2>
+            <div class="space-y-4">
+                <div class="border-b pb-4">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">متى تظهر النتائج؟</h3>
+                    <p class="text-gray-600">تبدأ النتائج الملحوظة في الظهور ابتداءً من 20 يوماً من الاستعمال المنتظم.</p>
+                </div>
+                <div class="border-b pb-4">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">متى يصلني الطلب؟</h3>
+                    <p class="text-gray-600">يصل طلبك بين 24 إلى 72 ساعة كأقصى حد.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">كيف تتم عملية الدفع؟</h3>
+                    <p class="text-gray-600">لا تدفع شيئاً حتى تتوصل بطلبك، ثم تدفع فقط 349 درهماً.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="flex justify-center mb-8 relative">
+            <div class="relative">
+                <img src="/Auracin_logo.png" class="w-32 h-22">
+            </div>
+        </div><br><br>
+    </div>
+
+    <!-- Sticky Mobile CTA Bar -->
+    <div class="fixed bottom-0 left-0 right-0 bg-red-600 text-white py-4 px-6 shadow-lg z-40 md:hidden">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="font-bold">أطلبي الآن بـ 349 DH</p>
+                <p class="text-sm opacity-90">الدفع عند الاستلام</p>
+            </div>
+            <button onclick="scrollToForm()" class="bg-white text-red-600 px-6 py-2 rounded-full font-bold">
+                أطلبي الآن ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Pop-up Modal -->
+    <div id="successPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl p-6 text-center max-w-sm w-full shadow-2xl transform transition-all">
+            <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">تم تسجيل طلبك بنجاح!</h3>
+            <p id="popupMessage" class="text-gray-600 mb-6"></p>
+            <button onclick="closePopup()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition duration-300">
+                حسناً، شكراً
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const orderForm = document.getElementById('orderForm');
+        const successPopup = document.getElementById('successPopup');
+        const popupMessage = document.getElementById('popupMessage');
+
+        orderForm.addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+
+            // إعداد الرسالة للـ Pop-up
+            popupMessage.innerHTML = `شكراً لطلبك يا <strong>${name}</strong>!<br>سيتصل بك فريقنا قريباً على الرقم <strong>${phone}</strong> لتأكيد الطلب.`;
+            
+            // إظهار البوب أب فوريًا ودون انتظار
+            successPopup.classList.remove('hidden');
+
+            // تفريغ النموذج بعد إرساله بـ 500ms
+            setTimeout(() => {
+                orderForm.reset();
+            }, 500);
+        });
+
+        function closePopup() {
+            successPopup.classList.add('hidden');
+        }
+
+        function scrollToForm() {
+            document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
