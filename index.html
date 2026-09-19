@@ -94,7 +94,7 @@
             <div class="bg-white p-6 rounded-xl shadow-lg max-w-md mx-auto mb-6">
                 <form id="orderForm" action="https://script.google.com/macros/s/AKfycbyxvob9ReOvjBcL4FVSE53p5J_fhWRcRFGSKYehflVH3rMqimVcK2XzU7Ud-DmLRUzL/exec" method="POST" class="space-y-4">
                     
-                    <!-- Honeypot Field (لحماية Form من البوتات خفية) -->
+                    <!-- Honeypot Field -->
                     <input type="text" name="website_hp" id="website_hp" style="display:none !important;" tabindex="-1" autocomplete="off">
 
                     <div>
@@ -287,7 +287,7 @@
             }
         });
 
-        // 2. معالجة الإرسال
+        // 2. معالجة الإرسال السريع مع keepalive
         orderForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -301,10 +301,6 @@
                 return;
             }
 
-            // تعطيل الزر لمنع الضغط المكرر
-            submitBtn.disabled = true;
-            submitBtn.innerText = 'جاري تسجيل الطلب...';
-
             // Meta Pixel Lead Tracking
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'Lead');
@@ -312,30 +308,19 @@
 
             const formData = new FormData(orderForm);
 
+            // إرسال البيانات فـ Background مع ضمان الوصول حتى لو تسدات الصفحة (keepalive)
             fetch(orderForm.action, {
                 method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'error' && data.message === 'Duplicate order') {
-                    popupMessage.innerHTML = `عزيزي/تي <strong>${name}</strong>، هذا الرقم مسجل لدينا سابقاً.<br>سيتصل بك فريقنا قريباً لتأكيد الطلب.`;
-                } else {
-                    popupMessage.innerHTML = `شكراً لطلبك يا <strong>${name}</strong>!<br>سيتصل بك فريقنا قريباً على الرقم <strong>${phoneVal}</strong> لتأكيد الطلب.`;
-                }
-                successPopup.classList.remove('hidden');
-                orderForm.reset();
-            })
-            .catch(error => {
-                // في حالة Google Apps Script Redirects
-                popupMessage.innerHTML = `شكراً لطلبك يا <strong>${name}</strong>!<br>سيتصل بك فريقنا قريباً على الرقم <strong>${phoneVal}</strong> لتأكيد الطلب.`;
-                successPopup.classList.remove('hidden');
-                orderForm.reset();
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerText = 'أطلبي الآن';
-            });
+                body: formData,
+                keepalive: true
+            }).catch(error => console.error('Error sending order:', error));
+
+            // إظهار الـ Pop-up فوراً وبسرعة البرق (Instant UI)
+            popupMessage.innerHTML = `شكراً لطلبك يا <strong>${name}</strong>!<br>سيتصل بك فريقنا قريباً على الرقم <strong>${phoneVal}</strong> لتأكيد الطلب.`;
+            successPopup.classList.remove('hidden');
+
+            // إعادة ضبط الفورم
+            orderForm.reset();
         });
 
         function closePopup() {
