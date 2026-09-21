@@ -49,17 +49,6 @@
     </style>
 </head>
 <body class="bg-gray-50 pb-16 md:pb-0">
-    <script>
-      fbq('track', 'Purchase', {
-        value: 349,
-        currency: 'MAD',
-        contents: [
-            {
-                quantity: 1
-            }
-        ],
-      });
-    </script>
 
     <!-- Announcement Bar -->
     <div class="bg-red-600 py-2 px-4 text-center text-white text-sm font-bold">
@@ -298,7 +287,7 @@
             }
         });
 
-        // 2. معالجة الإرسال السريع مع keepalive
+        // 2. معالجة الإرسال السريع مع keepalive وتراكينغ Purchase
         orderForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -312,14 +301,17 @@
                 return;
             }
 
-            // Meta Pixel Lead Tracking
+            // Meta Pixel Purchase Tracking - كيتطلق غير فاش يضغط الزبون على "أطلبي الآن" وتكون البيانات صحيحة
             if (typeof fbq !== 'undefined') {
-                fbq('track', 'Lead');
+                fbq('track', 'Purchase', {
+                    value: 349,
+                    currency: 'MAD'
+                });
             }
 
             const formData = new FormData(orderForm);
 
-            // إرسال البيانات فـ Background مع ضمان الوصول حتى لو تسدات الصفحة (keepalive)
+            // إرسال البيانات فـ Background مع ضمان الوصول (keepalive)
             fetch(orderForm.action, {
                 method: 'POST',
                 body: formData,
