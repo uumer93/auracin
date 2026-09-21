@@ -252,7 +252,7 @@
         </div>
     </div>
 
-    <!-- Success Pop-up Modal -->
+<!-- Success Pop-up Modal -->
     <div id="successPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-white rounded-2xl p-6 text-center max-w-sm w-full shadow-2xl transform transition-all">
             <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -262,7 +262,8 @@
             </div>
             <h3 class="text-2xl font-bold text-gray-800 mb-2">تم تسجيل طلبك بنجاح!</h3>
             <p id="popupMessage" class="text-gray-600 mb-6"></p>
-            <button onclick="closePopup()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition duration-300">
+            <!-- أضفنا type="button" هنا لمنع أي سلوك تلقائي -->
+            <button type="button" id="closePopupButton" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition duration-300">
                 إغلاق
             </button>
         </div>
@@ -272,11 +273,11 @@
         const orderForm = document.getElementById('orderForm');
         const phoneInput = document.getElementById('phone');
         const phoneError = document.getElementById('phoneError');
-        const submitBtn = document.getElementById('submitBtn');
         const successPopup = document.getElementById('successPopup');
         const popupMessage = document.getElementById('popupMessage');
+        const closePopupButton = document.getElementById('closePopupButton');
 
-        // 1. تصفية الحروف والتحقق المباشر من الهاتف أثناء الكتابة
+        // 1. تصفية الأرقام والتحقق من الهاتف
         phoneInput.addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9]/g, '');
             const phoneRegex = /^(05|06|07)\d{8}$/;
@@ -287,7 +288,7 @@
             }
         });
 
-        // 2. معالجة الإرسال السريع مع keepalive وتراكينغ Purchase
+        // 2. معالجة الطلب والترايكنغ الحقيقي لـ Purchase
         orderForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -301,7 +302,7 @@
                 return;
             }
 
-            // Meta Pixel Purchase Tracking - كيتطلق غير فاش يضغط الزبون على "أطلبي الآن" وتكون البيانات صحيحة
+            // إرسال Purchase مرة واحدة فقط هنا
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'Purchase', {
                     value: 349,
@@ -311,28 +312,32 @@
 
             const formData = new FormData(orderForm);
 
-            // إرسال البيانات فـ Background مع ضمان الوصول (keepalive)
+            // إرسال البيانات للـ Sheet
             fetch(orderForm.action, {
                 method: 'POST',
                 body: formData,
                 keepalive: true
-            }).catch(error => console.error('Error sending order:', error));
+            }).catch(error => console.error('Error:', error));
 
-            // إظهار الـ Pop-up فوراً وبسرعة البرق (Instant UI)
+            // إظهار النافذة المنبثقة
             popupMessage.innerHTML = `شكراً لطلبك يا <strong>${name}</strong>!<br>سيتصل بك فريقنا قريباً على الرقم <strong>${phoneVal}</strong> لتأكيد الطلب.`;
             successPopup.classList.remove('hidden');
 
-            // إعادة ضبط الفورم
+            // مسح البيانات من الفورم
             orderForm.reset();
         });
 
-        function closePopup() {
+        // 3. إغلاق الـ Pop-up بصفة آمنة بدون إطلاق أي Event
+        closePopupButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             successPopup.classList.add('hidden');
-        }
+        });
 
         function scrollToForm() {
             document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
+    
 </body>
 </html>
