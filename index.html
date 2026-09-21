@@ -95,25 +95,37 @@
                 <p class="text-green-600 font-semibold">✓ التوصيل مجاني</p>
             </div>
             
-            <!-- Order Form -->
-            <div class="bg-white p-6 rounded-xl shadow-lg max-w-md mx-auto mb-6">
+            <!-- Order Form Section Container -->
+            <div id="formSection" class="bg-white p-6 rounded-xl shadow-lg max-w-md mx-auto mb-6">
                 <form id="orderForm" action="https://script.google.com/macros/s/AKfycbyxvob9ReOvjBcL4FVSE53p5J_fhWRcRFGSKYehflVH3rMqimVcK2XzU7Ud-DmLRUzL/exec" method="POST" class="space-y-4">
                     
-                    <!-- Honeypot Field -->
+                    <!-- Honeypot Field (لحماية الموقع من البوتات) -->
                     <input type="text" name="website_hp" id="website_hp" style="display:none !important;" tabindex="-1" autocomplete="off">
 
                     <div>
-                        <input type="text" id="name" name="fullName" placeholder="الاسم الكامل" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                        <input type="text" id="name" name="fullName" placeholder="الاسم الكامل" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-right" required>
                     </div>
                     <div>
-                        <input type="tel" id="phone" name="phone" maxlength="10" placeholder="رقم الهاتف (مثال: 0612345678)" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                        <input type="tel" id="phone" name="phone" maxlength="10" placeholder="رقم الهاتف (مثال: 0612345678)" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-right" required>
                         <p id="phoneError" class="text-red-500 text-xs mt-1 hidden text-right">مرجو إدخال رقم هاتف مغربي صحيح كيبدا بـ 06 أو 07 أو 05 (10 أرقام).</p>
                     </div>
                     <button type="submit" id="submitBtn" class="w-full bg-red-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-red-700 transition duration-300 pulse cursor-pointer">
                         أطلبي الآن
                     </button>
                 </form>
-                <p class="text-sm text-gray-600 mt-4 text-center">
+
+                <!-- Success Message Container (بديل Pop-up يظهر هنا مباشرة بعد الطلب) -->
+                <div id="successMessageContainer" class="hidden text-center py-4">
+                    <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">تم تسجيل طلبك بنجاح!</h3>
+                    <p id="successText" class="text-gray-600 font-medium text-base leading-relaxed"></p>
+                </div>
+
+                <p id="formFooterNotice" class="text-sm text-gray-600 mt-4 text-center">
                     📞 بعد إدخال معلوماتك، سيتصل بك فريقنا لتأكيد طلبك.
                 </p>
             </div>
@@ -251,96 +263,91 @@
                 <p class="font-bold text-sm">أطلبي الآن بـ 349 DH</p>
                 <p class="text-xs opacity-90">الدفع عند الاستلام</p>
             </div>
-            <button onclick="scrollToForm()" class="bg-white text-red-600 px-5 py-2 rounded-full font-bold text-sm">
+            <button onclick="scrollToForm()" class="bg-white text-red-600 px-5 py-2 rounded-full font-bold text-sm cursor-pointer">
                 أطلبي الآن ➔
             </button>
         </div>
     </div>
 
-    <!-- Success Pop-up Modal -->
-    <div id="successPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-2xl p-6 text-center max-w-sm w-full shadow-2xl transform transition-all">
-            <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-gray-800 mb-2">تم تسجيل طلبك بنجاح!</h3>
-            <p id="popupMessage" class="text-gray-600 mb-6"></p>
-            <span id="closePopupButton" class="block w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition duration-300 cursor-pointer select-none">
-                إغلاق
-            </span>
-        </div>
-    </div>
-    
     <script>
         const orderForm = document.getElementById('orderForm');
         const phoneInput = document.getElementById('phone');
         const phoneError = document.getElementById('phoneError');
-        const successPopup = document.getElementById('successPopup');
-        const popupMessage = document.getElementById('popupMessage');
-        const closePopupButton = document.getElementById('closePopupButton');
-    
-        // 1. الفلترة المباشرة لرقم الهاتف
-        phoneInput.addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '');
-            const phoneRegex = /^(05|06|07)\d{8}$/;
-            if (this.value.length > 0 && !phoneRegex.test(this.value)) {
-                phoneError.classList.remove('hidden');
-            } else {
-                phoneError.classList.add('hidden');
-            }
-        });
-    
-        // 2. إرسال الطلب وإطلاق Purchase الحقيقي فقط
-        orderForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-    
-            const name = document.getElementById('name').value.trim();
-            const phoneVal = phoneInput.value.trim();
-            const phoneRegex = /^(05|06|07)\d{8}$/;
-    
-            if (!phoneRegex.test(phoneVal)) {
-                phoneError.classList.remove('hidden');
-                phoneInput.focus();
-                return;
-            }
-    
-            // إرسال حدث Purchase اليدوي الوحيد
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'Purchase', {
-                    value: 349,
-                    currency: 'MAD'
-                });
-            }
-    
-            const formData = new FormData(orderForm);
-    
-            // إرسال البيانات
-            fetch(orderForm.action, {
-                method: 'POST',
-                body: formData,
-                keepalive: true
-            }).catch(error => console.error('Error:', error));
-    
-            // عرض Pop-up ورسالة الشكر
-            popupMessage.innerHTML = `شكراً لطلبك يا <strong>${name}</strong>!<br>سيتصل بك فريقنا قريباً على الرقم <strong>${phoneVal}</strong> لتأكيد الطلب.`;
-            successPopup.classList.remove('hidden');
-    
-            // تفريغ الحقول
-            orderForm.reset();
-        });
-    
-        // 3. إغلاق النافذة بصمت تام
-        closePopupButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            successPopup.classList.add('hidden');
-        });
-    
+        const successContainer = document.getElementById('successMessageContainer');
+        const successText = document.getElementById('successText');
+        const formFooterNotice = document.getElementById('formFooterNotice');
+
+        // 1. Filtering l-phone number
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                const phoneRegex = /^(05|06|07)\d{8}$/;
+                if (this.value.length > 0 && !phoneRegex.test(this.value)) {
+                    if (phoneError) phoneError.classList.remove('hidden');
+                } else {
+                    if (phoneError) phoneError.classList.add('hidden');
+                }
+            });
+        }
+
+        // 2. Handling order submission
+        if (orderForm) {
+            orderForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Honeypot check (Bots protection)
+                const honeypot = document.getElementById('website_hp');
+                if (honeypot && honeypot.value !== '') {
+                    console.warn('Bot detected via Honeypot.');
+                    return false;
+                }
+
+                const nameInput = document.getElementById('name');
+                const name = nameInput ? nameInput.value.trim() : '';
+                const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+                const phoneRegex = /^(05|06|07)\d{8}$/;
+
+                if (!phoneRegex.test(phoneVal)) {
+                    if (phoneError) phoneError.classList.remove('hidden');
+                    if (phoneInput) phoneInput.focus();
+                    return;
+                }
+
+                // A) Track Meta Pixel Purchase event (Once)
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'Purchase', {
+                        value: 349,
+                        currency: 'MAD'
+                    });
+                }
+
+                // B) Send data to Google Sheets
+                const formData = new FormData(orderForm);
+                fetch(orderForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    keepalive: true
+                })
+                .then(response => console.log('Google Sheet Success'))
+                .catch(error => console.error('Google Sheet Error:', error));
+
+                // C) Hide form & Show inline success message
+                orderForm.classList.add('hidden');
+                if (formFooterNotice) formFooterNotice.classList.add('hidden');
+                
+                successText.innerHTML = `شكراً لطلبك يا <strong>${name}</strong>!<br>سيتصل بك فريقنا قريباً على الرقم <strong>${phoneVal}</strong> لتأكيد الطلب.`;
+                successContainer.classList.remove('hidden');
+
+                // Smooth scroll to success message
+                document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
         function scrollToForm() {
-            document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
+            const formSection = document.getElementById('formSection');
+            if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth' });
+            }
         }
     </script>
     
