@@ -7,31 +7,29 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b4d8c'/><text x='50%' y='62%' font-family='Arial, sans-serif' font-weight='bold' font-size='60' fill='white' text-anchor='middle'>A</text><path d='M25 78 L50 88 L75 78 L50 94 Z' fill='%23e53e3e'/></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-
-// 1. منع الفيسبوك من التراكينغ الأوتوماتيكي للأزرار والـ Auto Events
-fbq('set', 'autoConfig', false, '1668799288159013');
-
-// 2. تهيئة البيكسل
-fbq('init', '1668799288159013');
-
-// 3. تتبع PageView العادي فقط
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1668799288159013&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    
+    // إيقاف الإعدادات والتخمينات الأوتوماتيكية نهائياً
+    fbq('set', 'autoConfig', false, '1668799288159013');
+    fbq('set', 'allowCustomSetup', false, '1668799288159013');
+    
+    fbq('init', '1668799288159013');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1668799288159013&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Cairo', sans-serif; }
@@ -259,7 +257,7 @@ src="https://www.facebook.com/tr?id=1668799288159013&ev=PageView&noscript=1"
         </div>
     </div>
 
-<!-- Success Pop-up Modal -->
+    <!-- Success Pop-up Modal -->
     <div id="successPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-white rounded-2xl p-6 text-center max-w-sm w-full shadow-2xl transform transition-all">
             <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -269,13 +267,12 @@ src="https://www.facebook.com/tr?id=1668799288159013&ev=PageView&noscript=1"
             </div>
             <h3 class="text-2xl font-bold text-gray-800 mb-2">تم تسجيل طلبك بنجاح!</h3>
             <p id="popupMessage" class="text-gray-600 mb-6"></p>
-            <!-- أضفنا type="button" هنا لمنع أي سلوك تلقائي -->
-            <button type="button" id="closePopupButton" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition duration-300">
+            <span id="closePopupButton" class="block w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition duration-300 cursor-pointer select-none">
                 إغلاق
-            </button>
+            </span>
         </div>
     </div>
-
+    
     <script>
         const orderForm = document.getElementById('orderForm');
         const phoneInput = document.getElementById('phone');
@@ -283,8 +280,8 @@ src="https://www.facebook.com/tr?id=1668799288159013&ev=PageView&noscript=1"
         const successPopup = document.getElementById('successPopup');
         const popupMessage = document.getElementById('popupMessage');
         const closePopupButton = document.getElementById('closePopupButton');
-
-        // 1. تصفية الأرقام والتحقق من الهاتف
+    
+        // 1. الفلترة المباشرة لرقم الهاتف
         phoneInput.addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9]/g, '');
             const phoneRegex = /^(05|06|07)\d{8}$/;
@@ -294,53 +291,54 @@ src="https://www.facebook.com/tr?id=1668799288159013&ev=PageView&noscript=1"
                 phoneError.classList.add('hidden');
             }
         });
-
-        // 2. معالجة الطلب والترايكنغ الحقيقي لـ Purchase
+    
+        // 2. إرسال الطلب وإطلاق Purchase الحقيقي فقط
         orderForm.addEventListener('submit', function(e) {
             e.preventDefault();
-
+            e.stopPropagation();
+    
             const name = document.getElementById('name').value.trim();
             const phoneVal = phoneInput.value.trim();
             const phoneRegex = /^(05|06|07)\d{8}$/;
-
+    
             if (!phoneRegex.test(phoneVal)) {
                 phoneError.classList.remove('hidden');
                 phoneInput.focus();
                 return;
             }
-
-            // إرسال Purchase مرة واحدة فقط هنا
+    
+            // إرسال حدث Purchase اليدوي الوحيد
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'Purchase', {
                     value: 349,
                     currency: 'MAD'
                 });
             }
-
+    
             const formData = new FormData(orderForm);
-
-            // إرسال البيانات للـ Sheet
+    
+            // إرسال البيانات
             fetch(orderForm.action, {
                 method: 'POST',
                 body: formData,
                 keepalive: true
             }).catch(error => console.error('Error:', error));
-
-            // إظهار النافذة المنبثقة
+    
+            // عرض Pop-up ورسالة الشكر
             popupMessage.innerHTML = `شكراً لطلبك يا <strong>${name}</strong>!<br>سيتصل بك فريقنا قريباً على الرقم <strong>${phoneVal}</strong> لتأكيد الطلب.`;
             successPopup.classList.remove('hidden');
-
-            // مسح البيانات من الفورم
+    
+            // تفريغ الحقول
             orderForm.reset();
         });
-
-        // 3. إغلاق الـ Pop-up بصفة آمنة بدون إطلاق أي Event
+    
+        // 3. إغلاق النافذة بصمت تام
         closePopupButton.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             successPopup.classList.add('hidden');
         });
-
+    
         function scrollToForm() {
             document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
         }
